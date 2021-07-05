@@ -1,0 +1,111 @@
+<h1>Positions</h1>
+
+<table class="table table-sm table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Symbol</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Price</th>
+      <th scope="col">Total</th>
+      <th scope="col">Opened on</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @positions.each do |key, value| %>
+    <tr>
+      <td>
+        <%= key %>
+      </td>
+      <td>
+        <%= value[:quantity] %>
+      </td>
+      <td>
+        <%= number_to_currency value[:price] %>
+      </td>
+      <td>
+        <%= number_to_currency(value[:price] * value[:quantity]) %>
+      </td>
+      <td>
+        <%= value[:created_at].strftime('%F') %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<h1>Profit and loss</h1>
+<table class="table table-sm table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Symbol</th>
+      <th scope="col">Currency</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">PnL (cumm.)</th>
+      <th scope="col">PnL (perc.)</th>
+      <th scope="col">Realized on</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @pnls.each do |pnl| %>
+    <tr class=<%=pnl[:price] > 0 ? 'text-success' : 'text-danger' %>>
+      <td>
+        <%= pnl[:symbol] %>
+      </td>
+      <td>
+        <%= pnl[:currency] %>
+      </td>
+      <td>
+        <%= pnl[:quantity] %>
+      </td>
+      <td>
+        <%= number_to_currency pnl[:price] %>
+      </td>
+      <td>
+        <%= number_to_percentage pnl[:percent_pnl] %>
+      </td>
+      <td>
+        <%= pnl[:trade_date].strftime('%F') %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<h1>Trades</h1>
+
+<table class="table table-sm table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Symbol</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Price</th>
+      <th scope="col">Commission</th>
+      <th scope="col">Date</th>
+      <th scope="col">Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @trades.each do |trade| %>
+    <tr>
+      <td>
+        <%= trade.symbol %>
+      </td>
+      <td>
+        <%= trade.quantity %>
+      </td>
+      <td>
+        <%= number_to_currency trade.price %>
+      </td>
+      <td>
+        <%= number_to_currency trade.commission %>
+      </td>
+      <td>
+        <%= trade.trade_date.strftime('%F') %>
+      </td>
+      <td>
+        <%= trade.notes.empty? ? '-' : trade.notes %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

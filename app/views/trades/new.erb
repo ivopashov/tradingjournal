@@ -1,0 +1,42 @@
+<h1>New Trade</h1>
+
+<%= form_with model: @trade do |form| %>
+  <div>
+    <%= form.label :symbol %><br>
+    <%= form.text_field :symbol %>
+  </div>
+
+  <div>
+    <%= form.label :quantity %><br>
+    <%= form.number_field :quantity, step: :any %>
+  </div>
+
+  <div>
+    <%= form.label :price %><br>
+    <%= form.number_field :price, step: :any %>
+  </div>
+
+  <div>
+  <%= form.label :currency %><br>
+  <%= form.text_field :currency %>
+</div>
+
+  <div>
+    <%= form.label :commission %><br>
+    <%= form.number_field :commission, step: :any %>
+  </div>
+
+  <div>
+    <%= form.label :trade_date %><br>
+    <%= form.datetime_field :trade_date %>
+  </div>
+
+  <div>
+    <%= form.label :notes %><br>
+    <%= form.text_area :notes, size: "60x10" %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

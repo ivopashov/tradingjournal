@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  symbol: MyString
+  price: 9.99
+  quantity: 
+  commission: 9.99
+  tradetype: 
+  date: 2021-07-01 16:10:11
+  notes: MyString
+
+two:
+  symbol: MyString
+  price: 9.99
+  quantity: 
+  commission: 9.99
+  tradetype: 
+  date: 2021-07-01 16:10:11
+  notes: MyString
