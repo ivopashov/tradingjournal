@@ -1,0 +1,3 @@
+find and then create trade from csv
+positions total and %
+current price api

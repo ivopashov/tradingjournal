@@ -1,0 +1,4 @@
+<%= form_tag trades_import_path, multipart: true do %>
+    <%= file_field_tag :file %>
+    <%= submit_tag "Import trades" %>
+<% end %>

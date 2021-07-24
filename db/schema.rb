@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_03_202345) do
+ActiveRecord::Schema.define(version: 2021_07_24_072156) do
 
   create_table "positions", force: :cascade do |t|
     t.string "symbol", null: false
@@ -33,6 +33,10 @@ ActiveRecord::Schema.define(version: 2021_07_03_202345) do
     t.string "notes", limit: 2000
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "trade_id"
+    t.string "platform"
+    t.boolean "is_imported", default: false, null: false
+    t.index ["trade_id", "platform"], name: "index_trades_on_trade_id_and_platform", unique: true
   end
 
 end
