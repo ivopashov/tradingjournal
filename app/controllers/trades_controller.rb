@@ -7,7 +7,7 @@ class TradesController < ApplicationController
     end
 
     def create
-      @trade = Trade.new trade_params
+      @trade = Trade.new trade_params.merge(user_id: current_user.id)
 
       if @trade.save
         redirect_to :root
@@ -52,7 +52,8 @@ class TradesController < ApplicationController
                      trade_id: trade['TradeID'],
                      commission: trade['IBCommission'].to_d.abs,
                      trade_date: Time.new(year, month, day, hour, minute, second),
-                     is_imported: true
+                     is_imported: true,
+                     user_id: current_user.id
 
       end
 
