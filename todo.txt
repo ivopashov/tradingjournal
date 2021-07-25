@@ -1,3 +1,20 @@
-find and then create trade from csv
-positions total and %
-current price api
+Not in order of priority. I pick up items depending on how big it is and how much time I have.
+
+current price api to show current positions state
+
+users (devise?)
+
+move to PostgreSQL
+
+deploy to HEROKU
+
+dashboard#show with partials - now I piggy back the index view but is a bit off
+
+pnl stats for last X pnls
+
+tests on pnl stats
+
+tests on csv import
+
+base currency to handle trades in USD/EUR/CAD - this is hard. Should I convert to base currency or just separate trades by
+currency? Seems that the UX for that (Interactive Brokers cough cough) is having a base currency with conversion.

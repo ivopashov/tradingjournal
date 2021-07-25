@@ -10,17 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_24_072156) do
-
-  create_table "positions", force: :cascade do |t|
-    t.string "symbol", null: false
-    t.decimal "price", default: "0.0", null: false
-    t.float "quantity", default: 0.0, null: false
-    t.string "currency", default: "USD", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["symbol"], name: "index_positions_on_symbol", unique: true
-  end
+ActiveRecord::Schema.define(version: 2021_07_25_163515) do
 
   create_table "trades", force: :cascade do |t|
     t.string "symbol", null: false

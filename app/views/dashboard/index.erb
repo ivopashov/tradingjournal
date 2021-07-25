@@ -36,7 +36,73 @@
 <% end %>
 
 <% if @pnls.size > 0 %>
-  <h1>Profit and loss</h1>
+  <h1>PnL Stats</h1>
+  <table class="table table-sm table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Stat</th>
+        <th scope="col">All PnL</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="text-success">
+        <td>
+          Win count (%)
+        </td>
+        <td>
+          <%= "#{@pnls_stats[:winning_count]} (#{number_to_percentage(@pnls_stats[:winning_percentage])})" %>
+        </td>
+      </tr>
+      <tr class="text-danger">
+        <td>
+          Loss count (%)
+        </td>
+        <td>
+          <%= "#{@pnls_stats[:losing_count]} (#{number_to_percentage(@pnls_stats[:losing_percentage])})" %>
+        </td>
+      </tr>
+      <tr class="text-success">
+        <td>
+          Average winning $ (%)
+        </td>
+        <td>
+        <%= "#{number_to_currency(@pnls_stats[:average_winning_amount])} (#{number_to_percentage(@pnls_stats[:average_winning_percentage])})" %>
+        </td>
+      </tr>
+      <tr class="text-danger">
+        <td>
+          Average losing $ (%)
+        </td>
+        <td>
+          <%= "#{number_to_currency(@pnls_stats[:average_losing_amount])} (#{number_to_percentage(@pnls_stats[:average_losing_percentage])})" %>
+        </td>
+      </tr>
+      <tr class="text-success">
+        <td>
+          Total profit $ (%)
+        </td>
+        <td>
+          <%= number_to_currency @pnls_stats[:total_profit] %>
+        </td>
+      </tr>
+      <tr class="text-danger">
+        <td>
+          Total Loss $ (%)
+        </td>
+        <td>
+          <%= number_to_currency @pnls_stats[:total_loss] %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>
+
+<%= Vega.lite.data(@pnls).mark(type: "bar", tooltip: true).encoding(x: {field: "id", type: "nominal", title: nil}, y: {field: "price", type: "quantitative", title: "PnL"}) %>
+<%= Vega.lite.data(@pnls).mark(type: "bar", tooltip: true).encoding(x: {field: "symbol", type: "nominal", title: nil}, y: {field: "price", type: "quantitative", title: "PnL"}) %>
+<%= Vega.lite.data(@pnls).mark(type: "bar", tooltip: true).encoding(x: {field: "trade_date", type: "nominal", title: nil}, y: {field: "price", type: "quantitative", title: "PnL"}) %>
+
+<% if @pnls.size > 0 %>
+  <h1>PnL List</h1>
   <table class="table table-sm table-hover">
     <thead>
       <tr>

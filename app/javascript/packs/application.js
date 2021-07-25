@@ -14,4 +14,4 @@ require("stylesheets/application.scss")
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
-
+window.vegaEmbed = require("vega-embed").default

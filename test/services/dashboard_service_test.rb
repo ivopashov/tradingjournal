@@ -9,7 +9,9 @@ class DashboardServiceTest < ActiveSupport::TestCase
                       commission: 1,
                       trade_date: Time.new(2021, 07, 07, 07, 07, 07)
 
-    pnls, positions = DashboardService.generate [trade]
+    dashboard_service = DashboardService.generate [trade]
+    pnls = dashboard_service.pnls
+    positions = dashboard_service.positions
 
     assert_equal 1, positions.size
     assert_equal 0, pnls.size
@@ -35,7 +37,9 @@ class DashboardServiceTest < ActiveSupport::TestCase
                                  commission: 2,
                                  trade_date: Time.new(2021, 07, 07, 07, 07, 07)
 
-    pnls, positions = DashboardService.generate [initial_trade, additional_trade]
+    dashboard_service = DashboardService.generate [initial_trade, additional_trade]
+    pnls = dashboard_service.pnls
+    positions = dashboard_service.positions
 
     assert_equal 1, positions.size
     assert_equal 0, pnls.size
@@ -52,7 +56,9 @@ class DashboardServiceTest < ActiveSupport::TestCase
                       commission: 1,
                       trade_date: Time.new(2021, 07, 07, 07, 07, 07)
 
-    pnls, positions = DashboardService.generate [trade]
+    dashboard_service = DashboardService.generate [trade]
+    pnls = dashboard_service.pnls
+    positions = dashboard_service.positions
 
     assert_equal 1, positions.size
     assert_equal 0, pnls.size
@@ -78,7 +84,9 @@ class DashboardServiceTest < ActiveSupport::TestCase
                                  commission: 1,
                                  trade_date: Time.new(2021, 07, 07, 07, 07, 07)
 
-    pnls, positions = DashboardService.generate [initial_trade, additional_trade]
+    dashboard_service = DashboardService.generate [initial_trade, additional_trade]
+    pnls = dashboard_service.pnls
+    positions = dashboard_service.positions
 
     assert_equal 1, positions.size
     assert_equal 0, pnls.size
@@ -102,7 +110,9 @@ class DashboardServiceTest < ActiveSupport::TestCase
                                                  commission: 1,
                                                  trade_date: Time.new(2021, 07, 8, 07, 07, 07)
 
-    pnls, positions = DashboardService.generate [buy_position_trade, sell_partial_long_position_trade]
+    dashboard_service = DashboardService.generate [buy_position_trade, sell_partial_long_position_trade]
+    pnls = dashboard_service.pnls
+    positions = dashboard_service.positions
 
     assert_equal 1, positions.size
     assert_equal 1, pnls.size
@@ -115,7 +125,7 @@ class DashboardServiceTest < ActiveSupport::TestCase
     assert_equal 'AAPL', pnls.first[:symbol]
     assert_equal 2, pnls.first[:price]
     assert_equal 'USD', pnls.first[:currency]
-    assert_equal sell_partial_long_position_trade.trade_date, pnls.first[:trade_date]
+    assert_equal sell_partial_long_position_trade.trade_date, pnls.first[:trade_date_time]
     assert_equal 100, pnls.first[:percent_pnl]
   end
 
@@ -134,7 +144,9 @@ class DashboardServiceTest < ActiveSupport::TestCase
                                                    commission: 1,
                                                    trade_date: Time.new(2021, 07, 8, 07, 07, 07)
 
-    pnls, positions = DashboardService.generate [sell_position_trade, cover_partial_short_position_trade]
+    dashboard_service = DashboardService.generate [sell_position_trade, cover_partial_short_position_trade]
+    pnls = dashboard_service.pnls
+    positions = dashboard_service.positions
 
     assert_equal 1, positions.size
     assert_equal 1, pnls.size
@@ -147,7 +159,7 @@ class DashboardServiceTest < ActiveSupport::TestCase
     assert_equal 'AAPL', pnls.first[:symbol]
     assert_equal 4, pnls.first[:price]
     assert_equal 'USD', pnls.first[:currency]
-    assert_equal cover_partial_short_position_trade.trade_date, pnls.first[:trade_date]
+    assert_equal cover_partial_short_position_trade.trade_date, pnls.first[:trade_date_time]
     assert_equal 40, pnls.first[:percent_pnl]
   end
 
@@ -166,7 +178,9 @@ class DashboardServiceTest < ActiveSupport::TestCase
                             commission: 1,
                             trade_date: Time.new(2021, 07, 8, 07, 07, 07)
 
-    pnls, positions = DashboardService.generate [buy_position, sell_position]
+    dashboard_service = DashboardService.generate [buy_position, sell_position]
+    pnls = dashboard_service.pnls
+    positions = dashboard_service.positions
 
     assert_equal 0, positions.size
   end
@@ -186,7 +200,9 @@ class DashboardServiceTest < ActiveSupport::TestCase
                               commission: 1,
                               trade_date: Time.new(2021, 07, 8, 07, 07, 07)
 
-    pnls, positions = DashboardService.generate [buy_position, sell_position]
+    dashboard_service = DashboardService.generate [buy_position, sell_position]
+    pnls = dashboard_service.pnls
+    positions = dashboard_service.positions
 
     assert_equal 1, positions.size
     assert_equal 1, pnls.size
@@ -199,11 +215,11 @@ class DashboardServiceTest < ActiveSupport::TestCase
     assert_equal 'AAPL', pnls.first[:symbol]
     assert_equal -2, pnls.first[:price]
     assert_equal 'USD', pnls.first[:currency]
-    assert_equal sell_position.trade_date, pnls.first[:trade_date]
+    assert_equal sell_position.trade_date, pnls.first[:trade_date_time]
     assert_equal 20, pnls.first[:percent_pnl]
   end
 
-  test "reverses shprt to long position" do
+  test "reverses short to long position" do
     sell_position = Trade.new symbol: 'AAPL',
                               currency: 'USD',
                               price: 9,
@@ -218,7 +234,9 @@ class DashboardServiceTest < ActiveSupport::TestCase
                              commission: 1,
                              trade_date: Time.new(2021, 07, 8, 07, 07, 07)
 
-    pnls, positions = DashboardService.generate [sell_position, buy_position]
+    dashboard_service = DashboardService.generate [sell_position, buy_position]
+    pnls = dashboard_service.pnls
+    positions = dashboard_service.positions
 
     assert_equal 1, positions.size
     assert_equal 1, pnls.size
@@ -231,7 +249,7 @@ class DashboardServiceTest < ActiveSupport::TestCase
     assert_equal 'AAPL', pnls.first[:symbol]
     assert_equal -2, pnls.first[:price]
     assert_equal 'USD', pnls.first[:currency]
-    assert_equal buy_position.trade_date, pnls.first[:trade_date]
+    assert_equal buy_position.trade_date, pnls.first[:trade_date_time]
     assert_equal 25, pnls.first[:percent_pnl]
   end
 end
