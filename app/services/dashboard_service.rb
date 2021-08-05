@@ -1,3 +1,6 @@
+require 'json'
+require 'rest-client'
+
 class DashboardService
   def self.generate(trades)
     new(trades)
@@ -96,6 +99,15 @@ class DashboardService
         @positions[trade.symbol][:created_at] = trade.trade_date
       end
     end
+
+    @positions.each do |ticker, value|
+      url = "https://query1.finance.yahoo.com/v7/finance/chart/#{ticker}"
+      result = JSON.parse RestClient.get url
+      value[:market_price] = result['chart']['result'].first['meta']['regularMarketPrice']
+      value[:distance_from_market_percentage] = ((value[:market_price] - value[:price]) / value[:price] * 100) * (value[:quantity] / value[:quantity].abs)
+    end
+
+    @positions = @positions.sort_by { |ticker, value| -value[:distance_from_market_percentage] }
   end
 
   def partial_profit_taking?(trade)
