@@ -14,7 +14,7 @@
     </thead>
     <tbody>
     <% @positions.each do |key, value| %>
-      <tr>
+      <tr class=<%=value[:distance_from_market_percentage] > 0 ? 'text-success' : 'text-danger' %>>
         <td>
           <%= link_to key, dashboard_path(key) %>
         </td>
@@ -54,7 +54,7 @@
           Win count (%)
         </td>
         <td>
-          <%= "#{@pnls_stats[:winning_count]} (#{number_to_percentage(@pnls_stats[:winning_percentage])})" %>
+          <%= "#{@pnls_stats[:winning_count]} (#{number_to_percentage(@pnls_stats[:winning_percentage], precision: 1)})" %>
         </td>
       </tr>
       <tr class="text-danger">
@@ -62,7 +62,7 @@
           Loss count (%)
         </td>
         <td>
-          <%= "#{@pnls_stats[:losing_count]} (#{number_to_percentage(@pnls_stats[:losing_percentage])})" %>
+          <%= "#{@pnls_stats[:losing_count]} (#{number_to_percentage(@pnls_stats[:losing_percentage], precision: 1)})" %>
         </td>
       </tr>
       <tr class="text-success">
@@ -70,7 +70,7 @@
           Average winning $ (%)
         </td>
         <td>
-        <%= "#{number_to_currency(@pnls_stats[:average_winning_amount])} (#{number_to_percentage(@pnls_stats[:average_winning_percentage])})" %>
+        <%= "#{number_to_currency(@pnls_stats[:average_winning_amount])} (#{number_to_percentage(@pnls_stats[:average_winning_percentage], precision: 1)})" %>
         </td>
       </tr>
       <tr class="text-danger">
@@ -78,7 +78,7 @@
           Average losing $ (%)
         </td>
         <td>
-          <%= "#{number_to_currency(@pnls_stats[:average_losing_amount])} (#{number_to_percentage(@pnls_stats[:average_losing_percentage])})" %>
+          <%= "#{number_to_currency(@pnls_stats[:average_losing_amount])} (#{number_to_percentage(@pnls_stats[:average_losing_percentage], precision: 1)})" %>
         </td>
       </tr>
       <tr class="text-success">
@@ -126,7 +126,7 @@
           <%= number_to_currency pnl[:price] %> <%= pnl[:currency] %>
         </td>
         <td>
-          <%= number_to_percentage pnl[:percent_pnl] %>
+          <%= number_to_percentage pnl[:percent_pnl], precision: 1 %>
         </td>
         <td>
           <%= pnl[:trade_date].strftime('%F') %>
