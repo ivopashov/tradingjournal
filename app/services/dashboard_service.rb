@@ -102,9 +102,14 @@ class DashboardService
 
     @positions.each do |ticker, value|
       url = "https://query1.finance.yahoo.com/v7/finance/chart/#{ticker}"
-      result = JSON.parse RestClient.get url
-      value[:market_price] = result['chart']['result'].first['meta']['regularMarketPrice']
-      value[:distance_from_market_percentage] = ((value[:market_price] - value[:price]) / value[:price] * 100) * (value[:quantity] / value[:quantity].abs)
+      begin
+        result = JSON.parse RestClient.get url
+        value[:market_price] = result['chart']['result'].first['meta']['regularMarketPrice']
+        value[:distance_from_market_percentage] = ((value[:market_price] - value[:price]) / value[:price] * 100) * (value[:quantity] / value[:quantity].abs)
+      rescue
+        value[:market_price] = 0
+        value[:distance_from_market_percentage] = 0
+      end
     end
 
     @positions = @positions.sort_by { |ticker, value| -value[:distance_from_market_percentage] }
