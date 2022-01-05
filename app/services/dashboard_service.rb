@@ -106,6 +106,7 @@ class DashboardService
         result = JSON.parse RestClient.get url
         value[:market_price] = result['chart']['result'].first['meta']['regularMarketPrice']
         value[:distance_from_market_percentage] = ((value[:market_price] - value[:price]) / value[:price] * 100) * (value[:quantity] / value[:quantity].abs)
+        value[:current_profit_loss] = ((value[:market_price] - value[:price]) * value[:quantity].abs) * (value[:quantity] / value[:quantity].abs)
       rescue
         value[:market_price] = 0
         value[:distance_from_market_percentage] = 0

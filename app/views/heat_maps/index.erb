@@ -1,0 +1,20 @@
+<h1>Heat Maps</h1>
+
+<% if @heat_maps.size == 0 %>
+    <span>You don't have any heat maps. <%= link_to 'Create one', new_heat_map_path %> </span>
+<% else %>
+    <ul class="list-group list-group-flush">
+        <% @heat_maps.each do |heat_map| %>
+            <li class="list-group-item">
+                <% if(((Time.now.utc - heat_map.updated_at) / 1.minute).round < 2) %>
+                    <span><%="#{heat_map.name}"%> heatmap was just created or updated. Fetching data for it... Will be available in ~ 2 mins.</span>
+                <% else %>
+                    <%= link_to "#{heat_map.name}", heat_map_path(heat_map) %> - <%= link_to "Delete", heat_map_path(heat_map), data: { confirm: "Are you sure you want to delete #{heat_map.name}?" }, method: :delete %>
+                <% end %>
+            </li>
+        <% end %>
+    </ul>
+    <%= link_to 'Add heatmap', new_heat_map_path %>
+<% end %>
+
+

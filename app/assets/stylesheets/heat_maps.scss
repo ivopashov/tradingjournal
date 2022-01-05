@@ -1,0 +1,67 @@
+.heatmap-page {
+    margin: auto;
+    width: 500px;
+
+    .btn-group {
+        margin-bottom: 0.5rem;
+    }
+
+    .heading {
+        display: flex;
+        align-items: center;
+
+        h1 {
+            margin-right: 0.5rem;
+        }
+    }
+}
+
+.heatmap {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+}
+
+.heatmap-table {
+    text-align: center;
+    font-weight: 600;
+}
+
+.symbol {
+    height: 100px;
+    width: 100px;
+    display: flex;
+    font-weight: 800;
+}
+
+.ticker-and-percentage {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+
+    span {
+        margin: auto;
+    }
+}
+
+.color-green-1 { background-color: #f0fdf4 !important; }
+.color-green-2 { background-color: #dcfce7 !important; }
+.color-green-3 { background-color: #bbf7d0 !important; }
+.color-green-4 { background-color: #86efac !important; }
+.color-green-5 { background-color: #4ade80 !important; }
+.color-green-6 { background-color: #22c55e !important; }
+.color-green-7 { background-color: #16a34a !important; }
+.color-green-8 { background-color: #15803d !important; }
+.color-green-9 { background-color: #166534 !important; }
+.color-green-10 { background-color: #14532d !important; }
+
+.color-red-1 {background-color: #fef2f2 !important; }
+.color-red-2 {background-color: #fee2e2 !important; }
+.color-red-3 {background-color: #fecaca !important; }
+.color-red-4 {background-color: #fca5a5 !important; }
+.color-red-5 {background-color: #f87171 !important; }
+.color-red-6 {background-color: #ef4444 !important; }
+.color-red-7 {background-color: #dc2626 !important; }
+.color-red-8 {background-color: #b91c1c !important; }
+.color-red-9 {background-color: #991b1b !important; }
+.color-red-10 {background-color: #7f1d1d !important; }

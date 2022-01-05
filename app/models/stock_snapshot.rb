@@ -1,0 +1,2 @@
+class StockSnapshot < ApplicationRecord
+end

@@ -1,0 +1,65 @@
+<div class="heatmap-page">
+    <div class="heading">
+        <h1>
+            <%= "#{@name}" %>
+        </h1>
+
+        <%= link_to 'Edit', edit_heat_map_path(@heat_map), class: 'btn btn-link' %>
+    </div>
+
+    <div class="btn-group" role="group" aria-label="Performance toggle">
+        <% @periods.each do |button_text| %>
+            <button type="button" class="btn btn-sm btn-secondary js-performance-button" data-performance=<%="#{button_text}"%>><%="#{button_text}"%></button>
+        <% end %>
+    </div>
+
+    <div class="heatmap">
+        <% @data.each do |ticker, performance| %>
+            <div
+                class="js-stock symbol"
+                data-symbol=<%="#{ticker}"%>
+                data-performance-1d=<%="#{performance['1d']}"%>
+                data-performance-1m=<%="#{performance['1m']}"%>
+                data-performance-3m=<%="#{performance['3m']}"%>
+                data-performance-1w=<%="#{performance['1w']}"%>>
+                <div class="ticker-and-percentage">
+                    <span>
+                        <%="#{ticker}"%>
+                    </span>
+                    <span>
+                        <%= number_to_percentage(performance['1d'], precision: 2) %>
+                    </span>
+                </div>
+            </div>
+        <% end %>
+    </div>
+
+    <div class="heatmap-table">
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <% @periods.each do |column_text| %>
+                        <th scope="col"><%="#{column_text}"%></th>
+                    <% end %>
+                </tr>
+            </thead>
+            <tbody>
+                <% @data.each do |ticker, performance| %>
+                    <tr>
+                        <td>
+                            <%="#{ticker}"%>
+                        </td>
+                        <% performance.keys.each do |key| %>
+                            <td class="js-performance-percentages">
+                                <%= number_to_percentage(performance[key], precision: 2) %>
+                            </td>
+                        <% end %>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<%= javascript_pack_tag 'show_heat_map' %>

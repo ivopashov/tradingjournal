@@ -1,0 +1,48 @@
+class HeatMapService
+    def get(heat_map)
+        data = {}
+
+        heat_map.tickers.split(',').each do |ticker|
+            data[ticker] = get_stock_performance ticker
+        end
+
+        data
+    end
+
+    private
+
+    def get_stock_performance(ticker)
+        # TODO ticker is not present
+        # TODO ticker does not have enough data
+        # TODO holidays distorts weeks this way
+        # TODO tests
+
+        last_quote = get_last_quote ticker
+        previous_day_quote = get_past_quote ticker, (last_quote.date - 1.day)
+        previous_week_quote = get_past_quote ticker, (last_quote.date - 7.days)
+        previous_month_quote = get_past_quote ticker, (last_quote.date - 1.month)
+        previous_quarter_quote = get_past_quote ticker, (last_quote.date - 3.months + 2.days) # TODO hack, should understand it
+
+        one_day_performance = (last_quote.close - previous_day_quote.close) / previous_day_quote.close * 100
+        one_week_performance = (last_quote.close - previous_week_quote.close) / previous_week_quote.close * 100
+        one_month_performance = (last_quote.close - previous_month_quote.close) / previous_month_quote.close * 100
+        three_months_performance = (last_quote.close - previous_quarter_quote.close) / previous_quarter_quote.close * 100
+
+        {
+            "1d" => one_day_performance.round(2),
+            "1w" => one_week_performance.round(2),
+            "1m" => one_month_performance.round(2),
+            "3m" => three_months_performance.round(2)
+        }
+    end
+
+    private
+
+    def get_last_quote(ticker)
+        StockSnapshot.where(ticker: ticker).order(timestamp: :asc).last
+    end
+
+    def get_past_quote(ticker, date)
+        StockSnapshot.where("ticker = ? AND date <= ?", ticker, date).order(timestamp: :asc).last
+    end
+end

@@ -10,7 +10,51 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_25_172137) do
+ActiveRecord::Schema.define(version: 2022_01_05_102932) do
+
+  create_table "delayed_jobs", force: :cascade do |t|
+    t.integer "priority", default: 0, null: false
+    t.integer "attempts", default: 0, null: false
+    t.text "handler", null: false
+    t.text "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string "locked_by"
+    t.string "queue"
+    t.datetime "created_at", precision: 6
+    t.datetime "updated_at", precision: 6
+    t.index ["priority", "run_at"], name: "delayed_jobs_priority"
+  end
+
+  create_table "heat_maps", id: :string, force: :cascade do |t|
+    t.string "tickers", null: false
+    t.string "name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_heat_maps_on_user_id"
+  end
+
+  create_table "stock_snapshots", force: :cascade do |t|
+    t.string "ticker", null: false
+    t.datetime "timestamp", null: false
+    t.decimal "close", default: "0.0"
+    t.decimal "volume", default: "0.0"
+    t.decimal "open", default: "0.0"
+    t.decimal "high", default: "0.0"
+    t.decimal "low", default: "0.0"
+    t.decimal "sma20", default: "0.0"
+    t.decimal "sma50", default: "0.0"
+    t.decimal "sma200", default: "0.0"
+    t.decimal "volume50", default: "0.0"
+    t.float "rsi", default: 0.0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.date "date", null: false
+    t.index ["ticker", "date"], name: "index_stock_snapshots_on_ticker_and_date"
+    t.index ["ticker", "timestamp"], name: "index_stock_snapshots_on_ticker_and_timestamp", unique: true
+  end
 
   create_table "trades", force: :cascade do |t|
     t.string "symbol", null: false

@@ -9,7 +9,8 @@
         <th scope="col">Price</th>
         <th scope="col">Market Price</th>
         <th scope="col">Total</th>
-        <th scope="col">Opened on</th>
+        <th scope="col">Current PnL</th>
+        <th scope="col">Opened since</th>
       </tr>
     </thead>
     <tbody>
@@ -31,10 +32,24 @@
           <%= number_to_currency(value[:price] * value[:quantity]) %>
         </td>
         <td>
-          <%= value[:created_at].strftime('%F') %>
+          <%= number_to_currency(value[:current_profit_loss]) %>
+        </td>
+        <td>
+          <%= (Time.zone.now - value[:created_at]).to_i / 1.day %> days
         </td>
       </tr>
     <% end %>
+      <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>
+        <%= number_to_currency @positions.map { |k, value| (value[:price] * value[:quantity]).abs }.sum %>
+      </td>
+      <td></td>
+      <td></td>
+      </tr>
     </tbody>
   </table>
 <% end %>
