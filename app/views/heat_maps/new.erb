@@ -2,7 +2,7 @@
 
 <% if @heat_map.errors.any? %>
   <div id="error_explanation">
-    <h2><%= pluralize(@heat_map.errors.count, "error") %> prohibited this article from being saved:</h2>
+    <h2><%= pluralize(@heat_map.errors.count, "error") %> prohibited this heat map from being saved:</h2>
 
     <ul>
       <% @heat_map.errors.each do |error| %>

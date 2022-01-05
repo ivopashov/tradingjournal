@@ -7,5 +7,6 @@ Rails.application.routes.draw do
   get 'new_trades_import', to: 'trades#new_import'
   resources :trades, only: [:new, :create, :edit, :update]
   resources :heat_maps
+  resources :price_alerts
   resources :dashboard, only: [:show, :index]
 end
