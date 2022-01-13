@@ -1,18 +1,14 @@
 .heatmap-page {
     margin: auto;
     width: 500px;
+}
 
-    .btn-group {
-        margin-bottom: 0.5rem;
-    }
+.heading {
+    display: flex;
+    align-items: center;
 
-    .heading {
-        display: flex;
-        align-items: center;
-
-        h1 {
-            margin-right: 0.5rem;
-        }
+    h1 {
+        margin-right: 0.5rem;
     }
 }
 

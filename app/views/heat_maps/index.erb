@@ -1,20 +1,28 @@
-<h1>Heat Maps</h1>
+<div class="heading">
+    <h1>
+        Heat Maps
+    </h1>
+
+    <%= link_to new_heat_map_path, class: 'btn btn-sm btn-success', title: 'Create new', data: {toggle: 'tooltip'} do %>
+        <i class="far fa-plus-square"></i>
+    <% end %>
+</div>
 
 <% if @heat_maps.size == 0 %>
     <span>You don't have any heat maps. <%= link_to 'Create one', new_heat_map_path %> </span>
 <% else %>
     <ul class="list-group list-group-flush">
         <% @heat_maps.each do |heat_map| %>
-            <li class="list-group-item">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
                 <% if(((Time.now.utc - heat_map.updated_at) / 1.minute).round < 2) %>
                     <span><%="#{heat_map.name}"%> heatmap was just created or updated. Fetching data for it... Will be available in ~ 2 mins.</span>
                 <% else %>
-                    <%= link_to "#{heat_map.name}", heat_map_path(heat_map) %> - <%= link_to "Delete", heat_map_path(heat_map), data: { confirm: "Are you sure you want to delete #{heat_map.name}?" }, method: :delete %>
+                    <%= link_to "#{heat_map.name}", heat_map_path(heat_map) %>
+                    <%= link_to heat_map_path(heat_map), data: { confirm: "Are you sure you want to delete #{heat_map.name}?" }, method: :delete, class: 'text-danger' do %>
+                        <i class="fas fa-trash-alt"></i>
+                    <% end %>
                 <% end %>
             </li>
         <% end %>
     </ul>
-    <%= link_to 'Add heatmap', new_heat_map_path %>
 <% end %>
-
-
