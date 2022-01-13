@@ -15,11 +15,12 @@ class QuoteProvider
         end
 
         url = "https://query1.finance.yahoo.com/v7/finance/chart/#{ticker}?range=#{range}&interval=#{interval}&indicators=quote&includeTimestamps=true&includePrePost=false&corsDomain=finance.yahoo.com"
-
+        p "Requesting #{url}"
         JSON.parse RestClient.get url
       rescue => e
         # TODO retry transient failures, what types are they, retry keyword
-        p e
+        p e.message
+        p url
         return nil
       end
     end

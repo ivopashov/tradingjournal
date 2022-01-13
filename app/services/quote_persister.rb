@@ -1,18 +1,23 @@
 class QuotePersister
     def self.persist(data)
         return unless data
-        return if data['chart']['result'].nil?
+        return if data['chart']&.[]('result').nil?
 
-        ticker = data['chart']['result'].first['meta']['symbol']
+        first_result = ticker = data['chart']['result'].first
+        return if first_result.nil?
+        return if first_result['meta']&.[]('symbol').nil?
+        return if first_result['timestamp'].nil?
 
-        data['chart']['result'].first['timestamp'].each_with_index do |timestamp, index|
+        ticker = first_result['meta']['symbol']
+
+        first_result['timestamp'].each_with_index do |timestamp, index|
             time_at_timestamp_utc = Time.at(timestamp).utc
 
-            volume = data['chart']['result'].first['indicators']['quote'].first['volume'][index]
-            close = data['chart']['result'].first['indicators']['quote'].first['close'][index] # TODO adjclose? splits?
-            open = data['chart']['result'].first['indicators']['quote'].first['open'][index]
-            high = data['chart']['result'].first['indicators']['quote'].first['high'][index]
-            low = data['chart']['result'].first['indicators']['quote'].first['low'][index]
+            volume = first_result['indicators']['quote'].first['volume'][index]
+            close = first_result['indicators']['quote'].first['close'][index] # TODO adjclose? splits?
+            open = first_result['indicators']['quote'].first['open'][index]
+            high = first_result['indicators']['quote'].first['high'][index]
+            low = first_result['indicators']['quote'].first['low'][index]
 
             stock_snapshot = StockSnapshot.where(ticker: ticker, date: time_at_timestamp_utc.to_date).first
 
