@@ -39,6 +39,8 @@ function performanceClass(change) {
         return "color-red-9";
     } else if (change < -30) {
         return "color-red-10";
+    } else if (change == "no data") {
+        return "grey";
     }
 }
 
@@ -59,7 +61,10 @@ $(".js-performance-button").on("click", function () {
     $(".js-stock").each(function() {
         let stockElement = $(this);;
         let performance = stockElement.data("performance-" + requiredPerformance);
-        stockElement.find(".ticker-and-percentage").children().last().text(performance + "%");
+
+        if (performance != "no data") {
+            stockElement.find(".ticker-and-percentage").children().last().text(performance + "%");
+        }
 
         let elementClassForColoring = performanceClass(performance);
 

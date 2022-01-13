@@ -18,6 +18,9 @@ class HeatMapService
         # TODO tests
 
         last_quote = get_last_quote ticker
+
+        return nil unless last_quote
+
         previous_day_quote = get_past_quote ticker, (last_quote.date - 1.day)
         previous_week_quote = get_past_quote ticker, (last_quote.date - 7.days)
         previous_month_quote = get_past_quote ticker, (last_quote.date - 1.month)
@@ -29,11 +32,15 @@ class HeatMapService
         three_months_performance = (last_quote.close - previous_quarter_quote.close) / previous_quarter_quote.close * 100
 
         {
-            "1d" => one_day_performance.round(2),
-            "1w" => one_week_performance.round(2),
-            "1m" => one_month_performance.round(2),
-            "3m" => three_months_performance.round(2)
+            "performance" => {
+                "1d" => one_day_performance.round(2),
+                "1w" => one_week_performance.round(2),
+                "1m" => one_month_performance.round(2),
+                "3m" => three_months_performance.round(2)
+            },
+            "price" => last_quote.close.round(2)
         }
+
     end
 
     private

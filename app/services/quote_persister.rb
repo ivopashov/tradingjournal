@@ -1,6 +1,7 @@
 class QuotePersister
     def self.persist(data)
         return unless data
+        return if data['chart']['result'].nil?
 
         ticker = data['chart']['result'].first['meta']['symbol']
 

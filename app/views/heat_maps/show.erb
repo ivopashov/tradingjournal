@@ -4,33 +4,42 @@
             <%= "#{@name}" %>
         </h1>
 
-        <%= link_to 'Edit', edit_heat_map_path(@heat_map), class: 'btn btn-link' %>
-    </div>
-
-    <div class="btn-group" role="group" aria-label="Performance toggle">
-        <% @periods.each do |button_text| %>
-            <button type="button" class="btn btn-sm btn-secondary js-performance-button" data-performance=<%="#{button_text}"%>><%="#{button_text}"%></button>
+        <%= link_to edit_heat_map_path(@heat_map), class: 'btn btn-link' do %>
+            <i class="fas fa-edit"></i>
         <% end %>
     </div>
 
     <div class="heatmap">
-        <% @data.each do |ticker, performance| %>
-            <div
-                class="js-stock symbol"
-                data-symbol=<%="#{ticker}"%>
-                data-performance-1d=<%="#{performance['1d']}"%>
-                data-performance-1m=<%="#{performance['1m']}"%>
-                data-performance-3m=<%="#{performance['3m']}"%>
-                data-performance-1w=<%="#{performance['1w']}"%>>
-                <div class="ticker-and-percentage">
-                    <span>
-                        <%="#{ticker}"%>
-                    </span>
-                    <span>
-                        <%= number_to_percentage(performance['1d'], precision: 2) %>
-                    </span>
+        <% @data.each do |ticker, data| %>
+            <% if data.nil? %>
+                <div
+                    class="js-stock symbol"
+                    data-symbol=<%="#{ticker}"%>>
+                    <div class="ticker-and-percentage">
+                        <span>
+                            <%="#{ticker}"%>
+                        </span>
+                        <span>
+                            No data
+                        </span>
+                    </div>
                 </div>
-            </div>
+            <% else %>
+                <div
+                    class="js-stock symbol"
+                    data-symbol=<%="#{ticker}"%>
+                    data-performance-1d=<%="#{data['performance']['1d']}"%>>
+                    <div class="ticker-and-percentage" data-toggle="tooltip" title=<%="#{number_to_currency data['price']}"%>>
+                        <span>
+                            <%="#{ticker}"%>
+                        </span>
+                        <span>
+                            <%= number_to_percentage(data['performance']['1d'], precision: 2) %>
+                        </span>
+                    </div>
+                </div>
+            <% end %>
+
         <% end %>
     </div>
 
@@ -45,15 +54,17 @@
                 </tr>
             </thead>
             <tbody>
-                <% @data.each do |ticker, performance| %>
+                <% @data.each do |ticker, data| %>
                     <tr>
                         <td>
                             <%="#{ticker}"%>
                         </td>
-                        <% performance.keys.each do |key| %>
-                            <td class="js-performance-percentages">
-                                <%= number_to_percentage(performance[key], precision: 2) %>
-                            </td>
+                        <% if !data.nil? %>
+                            <% data['performance'].keys.each do |key| %>
+                                <td class="js-performance-percentages">
+                                    <%= number_to_percentage(data['performance'][key], precision: 2) %>
+                                </td>
+                            <% end %>
                         <% end %>
                     </tr>
                 <% end %>
