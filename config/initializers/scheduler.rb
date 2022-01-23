@@ -17,7 +17,7 @@ scheduler.every '1m' do
     end
 end
 
-scheduler.every '1m 30s' do
+scheduler.every '1m' do
     unless MarketsOpeningHours.open?
         p "#{Time.now} Skip trading alerts checking as it is weekend or holiday"
         next

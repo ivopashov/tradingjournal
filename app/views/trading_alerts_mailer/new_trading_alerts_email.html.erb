@@ -4,6 +4,17 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <p>Name: <%= @trading_alert.ticker %></p>
+    <div>
+        <p>Ticker: <%= @trading_alert.ticker %></p>
+    </div>
+    <div>
+      <p>Rule: <%= @trading_alert.rule %></p>
+    </div>
+    <div>
+      <p>Price that triggered the alert: <%= @trading_alert.price %></p>
+    </div>
+    <div>
+      <p>Triggered on: <%= @trading_alert.triggered_on %></p>
+    </div>
   </body>
 </html>

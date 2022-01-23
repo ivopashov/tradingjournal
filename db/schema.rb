@@ -81,6 +81,7 @@ ActiveRecord::Schema.define(version: 2022_01_05_164238) do
     t.boolean "triggered", default: false
     t.datetime "triggered_on"
     t.datetime "last_evaluated_on"
+    t.decimal "price"
     t.integer "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

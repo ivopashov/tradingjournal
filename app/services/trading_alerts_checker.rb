@@ -39,7 +39,7 @@ class TradingAlertsChecker
 
             if should_trigger
                 p "Triggering alert for #{alert.ticker} with rule #{alert.rule}"
-                alert.update triggered: true, triggered_on: Time.now.utc
+                alert.update triggered: true, triggered_on: Time.now.utc, price: stock_snapshot.close
                 TradingAlertsMailer.with(trading_alert: alert).new_trading_alerts_email.deliver_now
             else
                 p "Alert for #{alert.ticker} with rule #{alert.rule} was not triggered"

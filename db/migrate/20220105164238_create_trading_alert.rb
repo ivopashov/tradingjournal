@@ -6,6 +6,7 @@ class CreateTradingAlert < ActiveRecord::Migration[6.1]
       t.boolean :triggered, default: false
       t.timestamp :triggered_on
       t.timestamp :last_evaluated_on
+      t.decimal :price
       t.references :user
 
       t.timestamps
