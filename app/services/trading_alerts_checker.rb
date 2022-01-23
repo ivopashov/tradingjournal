@@ -24,13 +24,13 @@ class TradingAlertsChecker
             stock_snapshot = last_stock_snapshots[alert.ticker]
 
             if stock_snapshot.nil?
-                p "No price snapshot for alert #{alert.name} with ticker: #{alert.ticker}"
+                p "No price snapshot for alert #{alert.ticker} with rule: #{alert.rule}"
                 next
             end
 
             should_trigger =
                 begin
-                    rule = alert.rule.gsub "price", alert.close
+                    rule = alert.rule.gsub "price", stock_snapshot.close.to_s
                     eval rule
                 rescue => e
                     p e
@@ -38,10 +38,11 @@ class TradingAlertsChecker
                 end
 
             if should_trigger
-                p "Triggering alert #{alert.name} with ticker #{alert.ticker}"
+                p "Triggering alert for #{alert.ticker} with rule #{alert.rule}"
                 alert.update triggered: true, triggered_on: Time.now.utc
+                TradingAlertsMailer.with(trading_alert: alert).new_trading_alerts_email.deliver_now
             else
-                p "Alert #{alert.name} with ticker #{alert.ticker} was not triggered"
+                p "Alert for #{alert.ticker} with rule #{alert.rule} was not triggered"
             end
 
             alert.update last_evaluated_on: Time.now.utc

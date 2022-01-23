@@ -4,8 +4,6 @@ require 'rake'
 scheduler = Rufus::Scheduler.singleton
 
 scheduler.every '1m' do
-    p "#{Time.now} Running daily quotes"
-    DailyQuotes.delay.run
     unless MarketsOpeningHours.open?
         p "#{Time.now} Skip DailyQuotes as it is weekend or holiday"
         next

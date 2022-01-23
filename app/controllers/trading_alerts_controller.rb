@@ -9,8 +9,6 @@ class TradingAlertsController < ApplicationController
     end
 
     def create
-        p "============"
-        p trading_alert_params
         @trading_alert = TradingAlert.new trading_alert_params.merge(user_id: current_user.id)
 
         if @trading_alert.save

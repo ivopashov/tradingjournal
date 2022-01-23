@@ -13,7 +13,7 @@ class TradingAlert < ApplicationRecord
 
     def valid_rule
       # TODO improve
-      delimiters = ['>', '<', '<=', '>=']
+      delimiters = ['>=', '<=', '<', '>']
       rule_parts = rule.split(Regexp.union(delimiters)).map { |token| token.strip }
       if rule_parts.size != 2 || rule_parts[0].upcase != "PRICE" || !is_number?(rule_parts[1])
         errors.add(:rule, "invalid format. Should be 'price >= 42.42'")
