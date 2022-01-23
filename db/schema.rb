@@ -36,21 +36,6 @@ ActiveRecord::Schema.define(version: 2022_01_05_164238) do
     t.index ["user_id"], name: "index_heat_maps_on_user_id"
   end
 
-  create_table "price_alerts", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "ticker", null: false
-    t.string "comparison_operator", null: false
-    t.decimal "price", null: false
-    t.boolean "triggered", default: false
-    t.datetime "triggered_on"
-    t.integer "user_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["ticker", "triggered"], name: "index_price_alerts_on_ticker_and_triggered"
-    t.index ["user_id", "triggered"], name: "index_price_alerts_on_user_id_and_triggered"
-    t.index ["user_id"], name: "index_price_alerts_on_user_id"
-  end
-
   create_table "stock_snapshots", force: :cascade do |t|
     t.string "ticker", null: false
     t.datetime "timestamp", null: false
@@ -88,6 +73,19 @@ ActiveRecord::Schema.define(version: 2022_01_05_164238) do
     t.integer "user_id"
     t.index ["trade_id", "platform"], name: "index_trades_on_trade_id_and_platform", unique: true
     t.index ["user_id"], name: "index_trades_on_user_id"
+  end
+
+  create_table "trading_alerts", force: :cascade do |t|
+    t.string "ticker", null: false
+    t.string "rule", null: false
+    t.boolean "triggered", default: false
+    t.datetime "triggered_on"
+    t.datetime "last_evaluated_on"
+    t.integer "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["triggered"], name: "index_trading_alerts_on_triggered"
+    t.index ["user_id"], name: "index_trading_alerts_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

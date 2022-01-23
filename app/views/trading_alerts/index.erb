@@ -1,0 +1,68 @@
+<h1>Trading Alerts</h1>
+
+<% if @active_trading_alerts.size == 0 %>
+    <span>You don't have any active price alerts. <%= link_to 'Create one', new_trading_alert_path %> </span>
+<% else %>
+    <h2>Active trading alerts</h2>
+
+    <table class="table table-sm table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Ticker</th>
+            <th scope="col">Rule</th>
+            <th scope="col">Created On</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+            <% @active_trading_alerts.each do |trading_alert| %>
+                <tr>
+                    <td>
+                        <%= trading_alert.ticker %>
+                    </td>
+                    <td>
+                        <%= trading_alert.rule %>
+                    </td>
+                    <td>
+                        <%= trading_alert.created_at.strftime('%F') %>
+                    </td>
+                    <td>
+                        <%= link_to "Delete", trading_alert_path(trading_alert), data: { confirm: "Are you sure you want to delete #{trading_alert.ticker} - #{trading_alert.rule}?" }, method: :delete %>
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+
+    <%= link_to 'Add trading alert', new_trading_alert_path %>
+<% end %>
+
+
+<% if @recently_triggered_trading_alerts.size > 0 %>
+    <h2>Recently triggered trading alerts</h2>
+
+    <table class="table table-sm table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Ticker</th>
+            <th scope="col">Rule</th>
+            <th scope="col">Triggered on</th>
+        </tr>
+        </thead>
+        <tbody>
+            <% @recently_triggered_trading_alerts.each do |trading_alert| %>
+                <tr>
+                    <td>
+                        <%= trading_alert.ticker %>
+                    </td>
+                    <td>
+                        <%= trading_alert.rule %>
+                    </td>
+                    <td>
+                        <%= trading_alert.triggered_on.strftime('%c') %>
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+<% end %>

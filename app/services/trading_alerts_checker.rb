@@ -1,13 +1,13 @@
-class PriceAlertsChecker
+class TradingAlertsChecker
     def self.run
-        price_alerts = PriceAlert.where triggered: false
+        trading_alerts = TradingAlert.where triggered: false
 
-        if price_alerts.empty?
-            p "No active price alerts present"
+        if trading_alerts.empty?
+            p "No active trading alerts present"
             return
         end
 
-        unique_tickers = price_alerts.pluck(:ticker).uniq
+        unique_tickers = trading_alerts.pluck(:ticker).uniq
 
         last_stock_snapshots = {};
 
@@ -20,7 +20,7 @@ class PriceAlertsChecker
             end
         end
 
-        price_alerts.each do |alert|
+        trading_alerts.each do |alert|
             stock_snapshot = last_stock_snapshots[alert.ticker]
 
             if stock_snapshot.nil?
@@ -28,19 +28,14 @@ class PriceAlertsChecker
                 next
             end
 
-            should_trigger = false
-
-            if alert.comparison_operator == ">" || alert.comparison_operator == ">="
-                if stock_snapshot.high >= alert.price
-                    should_trigger = true
+            should_trigger =
+                begin
+                    rule = alert.rule.gsub "price", alert.close
+                    eval rule
+                rescue => e
+                    p e
+                    false
                 end
-            end
-
-            if alert.comparison_operator == "<" || alert.comparison_operator == "<="
-                if stock_snapshot.low <= alert.price
-                    should_trigger = true
-                end
-            end
 
             if should_trigger
                 p "Triggering alert #{alert.name} with ticker #{alert.ticker}"
@@ -48,6 +43,8 @@ class PriceAlertsChecker
             else
                 p "Alert #{alert.name} with ticker #{alert.ticker} was not triggered"
             end
+
+            alert.update last_evaluated_on: Time.now.utc
         end
     end
 end

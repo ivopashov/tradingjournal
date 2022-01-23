@@ -1,0 +1,29 @@
+<h1>New Trading Alert</h1>
+
+<% if @trading_alert.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@trading_alert.errors.count, "error") %> prohibited this trading alert from being saved:</h2>
+
+    <ul>
+      <% @trading_alert.errors.each do |error| %>
+        <li><%= error.full_message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_with model: @trading_alert do |form| %>
+  <div class="form-group">
+    <%= form.label :ticker, class: 'form-label' %><br>
+    <%= form.text_field :ticker, step: :any, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :rule, class: 'form-label' %><br>
+    <%= form.text_field :rule, class: 'form-control', placeholder: 'ie price > 100.20' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.submit 'Add', class: 'btn btn-primary btn-lg' %>
+  </div>
+<% end %>

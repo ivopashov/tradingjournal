@@ -54,22 +54,30 @@ $(".js-stock").each(function() {
     $(this).addClass(elementClassForColoring);
 });
 
-$(".js-performance-button").on("click", function () {
-    let requiredPerformance = $(this).data("performance");
-    console.log(requiredPerformance);
-
-    $(".js-stock").each(function() {
-        let stockElement = $(this);;
-        let performance = stockElement.data("performance-" + requiredPerformance);
-
-        if (performance != "no data") {
-            stockElement.find(".ticker-and-percentage").children().last().text(performance + "%");
-        }
-
-        let elementClassForColoring = performanceClass(performance);
-
-        stockElement.removeClass(function(_index, className) {
-            return (className.match (/\bcolor-\S+/g) || []).join(' ');
-        }).addClass(elementClassForColoring);
+$(".js-stock-with-data").on("click", function () {
+    let ticker = $(this).data("symbol");
+    new TradingView.widget({
+        "container_id": "technical-analysis",
+        "width": "100%",
+        "height": 600,
+        "symbol": ticker,
+        "interval": "D",
+        "timezone": "exchange",
+        "theme": "dark",
+        "style": "1",
+        "toolbar_bg": "#f1f3f6",
+        "withdateranges": true,
+        "hide_side_toolbar": true,
+        "allow_symbol_change": false,
+        "save_image": false,
+        "studies": [
+            "StochasticRSI@tv-basicstudies"
+        ],
+        "show_popup_button": true,
+        "popup_width": "1000",
+        "popup_height": "650",
+        "locale": "en"
     });
+
+    $(".tradingview-widget-copyright").show();
 });

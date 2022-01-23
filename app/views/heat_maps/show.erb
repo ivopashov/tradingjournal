@@ -1,3 +1,5 @@
+<script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+
 <div class="heatmap-page">
     <div class="heading">
         <h1>
@@ -26,7 +28,7 @@
                 </div>
             <% else %>
                 <div
-                    class="js-stock symbol"
+                    class="js-stock js-stock-with-data symbol"
                     data-symbol=<%="#{ticker}"%>
                     data-performance-1d=<%="#{data['performance']['1d']}"%>>
                     <div class="ticker-and-percentage" data-toggle="tooltip" title=<%="#{number_to_currency data['price']}"%>>
@@ -41,6 +43,11 @@
             <% end %>
 
         <% end %>
+    </div>
+
+    <div class="tradingview-widget-container">
+        <div id="technical-analysis"></div>
+        <div class="tradingview-widget-copyright">Charts by TradingView</div>
     </div>
 
     <div class="heatmap-table">

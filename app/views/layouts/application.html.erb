@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'  %>
@@ -26,7 +25,7 @@
           <%= link_to "Heat Maps", heat_maps_path, class: 'nav-link'  %>
         </li>
         <li class="nav-item">
-          <%= link_to "Alerts", price_alerts_path, class: 'nav-link'  %>
+          <%= link_to "Alerts", trading_alerts_path, class: 'nav-link'  %>
         </li>
         <li class="nav-item">
           <%= link_to "Logout", destroy_user_session_path, method: :delete, class: 'nav-link'  %>
