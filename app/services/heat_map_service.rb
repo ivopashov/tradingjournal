@@ -12,8 +12,6 @@ class HeatMapService
     private
 
     def get_stock_performance(ticker)
-        # TODO ticker is not present
-        # TODO ticker does not have enough data
         # TODO holidays distorts weeks this way
         # TODO tests
 
@@ -26,15 +24,17 @@ class HeatMapService
         previous_month_quote = get_past_quote ticker, (last_quote.date - 1.month)
         previous_quarter_quote = get_past_quote ticker, (last_quote.date - 3.months + 2.days) # TODO hack, should understand it
 
-        one_day_performance = (last_quote.close - previous_day_quote.close) / previous_day_quote.close * 100
-        one_week_performance = (last_quote.close - previous_week_quote.close) / previous_week_quote.close * 100
+        one_day_performance =
+            !previous_day_quote.nil? ? ((last_quote.close - previous_day_quote.close) / previous_day_quote.close * 100) : nil
+
+        one_week_performance =
+            !previous_week_quote.nil? ? ((last_quote.close - previous_week_quote.close) / previous_week_quote.close * 100) : nil
 
         one_month_performance =
-            previous_month_quote ? ((last_quote.close - previous_month_quote.close) / previous_month_quote.close * 100) : nil
+            !previous_month_quote.nil? ? ((last_quote.close - previous_month_quote.close) / previous_month_quote.close * 100) : nil
 
         three_months_performance =
-            previous_quarter_quote ? ((last_quote.close - previous_quarter_quote.close) / previous_quarter_quote.close * 100) : nil
-
+            !previous_quarter_quote.nil? ? ((last_quote.close - previous_quarter_quote.close) / previous_quarter_quote.close * 100) : nil
 
         {
             "performance" => {
