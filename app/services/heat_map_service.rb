@@ -28,8 +28,13 @@ class HeatMapService
 
         one_day_performance = (last_quote.close - previous_day_quote.close) / previous_day_quote.close * 100
         one_week_performance = (last_quote.close - previous_week_quote.close) / previous_week_quote.close * 100
-        one_month_performance = (last_quote.close - previous_month_quote.close) / previous_month_quote.close * 100
-        three_months_performance = (last_quote.close - previous_quarter_quote.close) / previous_quarter_quote.close * 100
+
+        one_month_performance =
+            previous_month_quote ? ((last_quote.close - previous_month_quote.close) / previous_month_quote.close * 100) : nil
+
+        three_months_performance =
+            previous_quarter_quote ? ((last_quote.close - previous_quarter_quote.close) / previous_quarter_quote.close * 100) : nil
+
 
         {
             "performance" => {
