@@ -25,23 +25,23 @@ class HeatMapService
         previous_quarter_quote = get_past_quote ticker, (last_quote.date - 3.months + 2.days) # TODO hack, should understand it
 
         one_day_performance =
-            !previous_day_quote.nil? ? ((last_quote.close - previous_day_quote.close) / previous_day_quote.close * 100) : nil
+            !previous_day_quote.nil? ? ((last_quote.close - previous_day_quote.close) / previous_day_quote.close * 100).round(2) : nil
 
         one_week_performance =
-            !previous_week_quote.nil? ? ((last_quote.close - previous_week_quote.close) / previous_week_quote.close * 100) : nil
+            !previous_week_quote.nil? ? ((last_quote.close - previous_week_quote.close) / previous_week_quote.close * 100).round(2) : nil
 
         one_month_performance =
-            !previous_month_quote.nil? ? ((last_quote.close - previous_month_quote.close) / previous_month_quote.close * 100) : nil
+            !previous_month_quote.nil? ? ((last_quote.close - previous_month_quote.close) / previous_month_quote.close * 100).round(2) : nil
 
         three_months_performance =
-            !previous_quarter_quote.nil? ? ((last_quote.close - previous_quarter_quote.close) / previous_quarter_quote.close * 100) : nil
+            !previous_quarter_quote.nil? ? ((last_quote.close - previous_quarter_quote.close) / previous_quarter_quote.close * 100).round(2) : nil
 
         {
             "performance" => {
-                "1d" => one_day_performance.round(2),
-                "1w" => one_week_performance.round(2),
-                "1m" => one_month_performance.round(2),
-                "3m" => three_months_performance.round(2)
+                "1d" => one_day_performance,
+                "1w" => one_week_performance,
+                "1m" => one_month_performance,
+                "3m" => three_months_performance
             },
             "price" => last_quote.close.round(2)
         }
