@@ -47,6 +47,7 @@
             <th scope="col">Ticker</th>
             <th scope="col">Rule</th>
             <th scope="col">Triggered on</th>
+            <th scope="col">Price</th>
         </tr>
         </thead>
         <tbody>
@@ -61,6 +62,9 @@
                     <td>
                         <%= trading_alert.triggered_on.strftime('%c') %>
                     </td>
+                    <td>
+                        <%= number_to_currency trading_alert.price%>
+                    </rd>
                 </tr>
             <% end %>
         </tbody>
