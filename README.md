@@ -2,8 +2,9 @@
 
 ## Overview
 
-Trading journal to track stock trading and positions.
-For now supports manual trade entry or CSV imports from Interactive Brokers and provides UI to see trades/PnL/Open positions.
+* maintain a trading journal with manual trades input or Interactive Brokers import
+* maintain trading alerts
+* maintain watch lists
 
 ## Run tests
 
@@ -12,3 +13,10 @@ For now supports manual trade entry or CSV imports from Interactive Brokers and 
 ## Roadmap
 
 see todo.txt
+
+## Run locally
+
+* `git checkout -b local-setup`
+* `bin/rails s` . This will start a web server and will start running a few tasks periodically (see `scheduler.rb`)
+* `bin/rake jobs:work` in a separate tab
+* setup mail settings in `development.rb`
